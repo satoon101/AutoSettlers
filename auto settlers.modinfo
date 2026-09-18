@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="f78aa7e1-f885-4ecb-926c-fc4745652892" version="1">
+
+    <Properties>
+        <Name>Auto Settlers</Name>
+        <Description>Settlers automatically move to a map pin designated for city center.</Description>
+        <Teaser>Auto-move settlers</Teaser>
+        <Authors>satoon101</Authors>
+        <CompatibleVersions>2.0</CompatibleVersions>
+    </Properties>
+
+    <InGameActions>
+
+        <AddUserInterfaces id="AutoSettlerUI">
+            <Properties>
+                <Context>InGame</Context>
+            </Properties>
+            <File>scripts/UI/AutoSettler_UI.xml</File>
+        </AddUserInterfaces>
+
+        <ImportFiles id="AutoSettlerHelpers">
+            <File>scripts/UI/AutoSettler_Config.lua</File>
+            <File>scripts/UI/AutoSettler_Constants.lua</File>
+            <File>scripts/UI/AutoSettler_Helpers.lua</File>
+            <File>scripts/UI/AutoSettler_Managers.lua</File>
+        </ImportFiles>
+
+    </InGameActions>
+
+    <Files>
+        <File>scripts/UI/AutoSettler_UI.lua</File>
+        <File>scripts/UI/AutoSettler_UI.xml</File>
+        <File>scripts/UI/AutoSettler_Config.lua</File>
+        <File>scripts/UI/AutoSettler_Constants.lua</File>
+        <File>scripts/UI/AutoSettler_Helpers.lua</File>
+        <File>scripts/UI/AutoSettler_Managers.lua</File>
+    </Files>
+
+</Mod>
