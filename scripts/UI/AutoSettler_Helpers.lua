@@ -32,7 +32,9 @@ function GatherCurrentData(playerID)
     for _, unit in units:Members() do
         if unit:GetType() == SETTLER_INDEX then
             local plot = Map.GetPlot(unit:GetX(), unit:GetY())
-            SettlerUnitIDs[unit:GetID()] = plot:GetIndex()
+            if plot ~= nil then
+                SettlerUnitIDs[unit:GetID()] = plot:GetIndex()
+            end
         end
     end
 end
