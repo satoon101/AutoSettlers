@@ -15,7 +15,7 @@
             <Properties>
                 <Context>InGame</Context>
             </Properties>
-            <File>scripts/UI/AutoSettler_UI.xml</File>
+            <File>scripts/UI/AutoSettler.xml</File>
         </AddUserInterfaces>
 
         <ImportFiles id="AutoSettlerHelpers">
@@ -28,8 +28,8 @@
     </InGameActions>
 
     <Files>
-        <File>scripts/UI/AutoSettler_UI.lua</File>
-        <File>scripts/UI/AutoSettler_UI.xml</File>
+        <File>scripts/UI/AutoSettler.lua</File>
+        <File>scripts/UI/AutoSettler.xml</File>
         <File>scripts/UI/AutoSettler_Config.lua</File>
         <File>scripts/UI/AutoSettler_Constants.lua</File>
         <File>scripts/UI/AutoSettler_Helpers.lua</File>
