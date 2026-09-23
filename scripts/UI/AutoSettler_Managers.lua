@@ -109,6 +109,10 @@ function SettlerManager:ProcessSettler(turnNumber)
         return
     end
 
+    if self.unitID == nil then
+        return
+    end
+
     local unit = UnitManager.GetUnit(self.playerID, self.unitID)
     if unit == nil then
         return
