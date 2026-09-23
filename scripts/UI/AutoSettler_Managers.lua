@@ -55,6 +55,11 @@ function SettlerManager:FindBaseAttributes()
             self.settlerPlotID = checkPlotID
         end
     end
+
+    self.unitID = (
+        SettlersOnIconPlots[self.settlerPlotID]
+        or SettlersOnIconPlots[self.plotID]
+    )
 end
 
 function SettlerManager:FindNearestSettler()
@@ -100,6 +105,10 @@ function SettlerManager:MoveToPlot(plotID, skipTurn)
 end
 
 function SettlerManager:ProcessSettler(turnNumber)
+    if self.buildTurn == nil then
+        return
+    end
+
     local unit = UnitManager.GetUnit(self.playerID, self.unitID)
     if unit == nil then
         return

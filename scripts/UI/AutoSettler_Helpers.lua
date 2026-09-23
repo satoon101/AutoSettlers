@@ -4,11 +4,13 @@ SettlerIconPlotIDs = {}
 CityPlotIDs = {}
 SettlerUnitIDs = {}
 WonderPlotIDs = {}
+SettlersOnIconPlots = {}
 
 function GatherCurrentData(playerID)
     SettlerIconPlotIDs = {}
     CityPlotIDs = {}
     SettlerUnitIDs = {}
+    SettlersOnIconPlots = {}
     local config = PlayerConfigurations[playerID]
     local pins = config:GetMapPins()
     for _, pin in pairs(pins) do
@@ -33,7 +35,15 @@ function GatherCurrentData(playerID)
         if unit:GetType() == SETTLER_INDEX then
             local plot = Map.GetPlot(unit:GetX(), unit:GetY())
             if plot ~= nil then
-                SettlerUnitIDs[unit:GetID()] = plot:GetIndex()
+                local plotID = plot:GetIndex()
+                local unitID = unit:GetID()
+                if (
+                    SettlerIconPlotIDs[plotID] ~= nil
+                    or CityPlotIDs[plotID] ~= nil
+                ) then
+                    SettlersOnIconPlots[plotID] = unitID
+                end
+                SettlerUnitIDs[unitID] = plot:GetIndex()
             end
         end
     end
