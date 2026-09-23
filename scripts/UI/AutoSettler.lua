@@ -32,7 +32,6 @@ function ProcessAllSettlers(playerID)
         local obj = SettlerManager:new(plotID)
         obj:FindBaseAttributes()
         if obj.unitID ~= nil then
-            CityPlotIDs[plotID] = nil
             SettlerUnitIDs[obj.unitID] = nil
         end
     end
@@ -63,5 +62,41 @@ function ProcessNewSettler(playerID, unitID, iX, iY)
 end
 
 Events.UnitAddedToMap.Add(ProcessNewSettler)
+
+function RemoveSafePlotMapPin(playerID, _, x1, y1)
+    local player = Players[playerID]
+    if player == nil or not player:IsHuman() then
+        return
+    end
+
+    local config = PlayerConfigurations[playerID]
+    if config == nil then
+        return
+    end
+
+    local foundPinID = nil
+    local iconName = "ICON_MAP_PIN_DISTRICT"
+    local pins = config:GetMapPins()
+    for pinID, pin in pairs(pins) do
+        if pin:GetIconName() == iconName then
+            local x2 = pin:GetHexX()
+            local y2 = pin:GetHexY()
+            local distance = Map.GetPlotDistance(x1, y1, x2, y2)
+            if distance <= 2 then
+                foundPinID = pinID
+                break
+            end
+        end
+    end
+
+    local pin = pins[foundPinID]
+    local x = pin:GetHexX()
+    local y = pin:GetHexY()
+    config:DeleteMapPin(foundPinID)
+    Network.BroadcastPlayerInfo()
+    LuaEvents.MapPinPopup_OnDelete(playerID, foundPinID, iconName, x, y)
+end
+
+Events.CityInitialized.Add(RemoveSafePlotMapPin)
 
 print("=== Auto Settlers (UI) Loaded ===")
