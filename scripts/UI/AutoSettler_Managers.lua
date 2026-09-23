@@ -156,7 +156,7 @@ function SettlerManager.ProcessAllSettlers(turnNumber)
     end
 end
 
-function SettlerManager.FindNearestCityForSettler(unitID, iX, iY)
+function SettlerManager.FindNearestCityForSettler(iX, iY)
     local closestPlotID = nil
     local closestDistance = nil
     for _, instance in pairs(SettlerManager.Registry) do

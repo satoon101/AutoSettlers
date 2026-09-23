@@ -51,7 +51,7 @@ function ProcessNewSettler(playerID, unitID, iX, iY)
 
     local plot = Map.GetPlot(iX, iY)
     SettlerUnitIDs[unitID] = plot:GetIndex()
-    local plotID = SettlerManager.FindNearestCityForSettler(unitID, iX, iY)
+    local plotID = SettlerManager.FindNearestCityForSettler(iX, iY)
     if plotID ~= nil then
         local obj = SettlerManager:new(plotID, playerID)
         if obj ~= nil then
