@@ -7,23 +7,20 @@ print("=== Auto Settlers (UI) Loading ===")
 
 include("AutoSettler_Managers")
 
-FinishedInitialization = false
+MovementEnabled = false
 
 function LoadProcessAllSettlers()
-    FinishedInitialization = true
-    ProcessAllSettlers()
+    local playerID = Game.GetLocalPlayer()
+    ProcessAllSettlers(playerID)
 end
 
 function ProcessAllSettlers(playerID)
-    if playerID == nil then
-        playerID = Game.GetLocalPlayer()
-    end
-
     local player = Players[playerID]
     if player == nil or not player:IsHuman() then
         return
     end
 
+    MovementEnabled = true
     SettlerManager.ClearMapping()
     GatherCurrentData(playerID)
 
@@ -44,8 +41,24 @@ end
 Events.LoadGameViewStateDone.Add(LoadProcessAllSettlers)
 Events.PlayerTurnActivated.Add(ProcessAllSettlers)
 
+function DisableMovement()
+    MovementEnabled = false
+end
+
+Events.PlayerTurnDeactivated.Add(DisableMovement)
+
 function ProcessNewSettler(playerID, unitID, iX, iY)
-    if not FinishedInitialization then
+    if not MovementEnabled then
+        return
+    end
+
+    local player = Players[playerID]
+    if player == nil or not player:IsHuman() then
+        return
+    end
+
+    local unit = UnitManager.GetUnit(playerID, unitID)
+    if unit == nil or unit:GetType() ~= SETTLER_INDEX then
         return
     end
 
