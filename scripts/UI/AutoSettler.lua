@@ -67,7 +67,8 @@ function ProcessNewSettler(playerID, unitID, iX, iY)
     local plotID = SettlerManager.FindNearestCityForSettler(iX, iY)
     if plotID ~= nil then
         local obj = SettlerManager:new(plotID, playerID)
-        if obj ~= nil then
+        if obj ~= nil and obj.unitID == nil then
+            obj.unitID = unitID
             local turnNumber = Game.GetCurrentGameTurn()
             obj:ProcessSettler(turnNumber)
         end
@@ -88,7 +89,7 @@ function RemoveSafePlotMapPin(playerID, _, x1, y1)
     end
 
     local foundPinID = nil
-    local iconName = "ICON_MAP_PIN_DISTRICT"
+    local iconName = "ICON_UNIT_SETTLER"
     local pins = config:GetMapPins()
     for pinID, pin in pairs(pins) do
         if pin:GetIconName() == iconName then
@@ -103,11 +104,13 @@ function RemoveSafePlotMapPin(playerID, _, x1, y1)
     end
 
     local pin = pins[foundPinID]
-    local x = pin:GetHexX()
-    local y = pin:GetHexY()
-    config:DeleteMapPin(foundPinID)
-    Network.BroadcastPlayerInfo()
-    LuaEvents.MapPinPopup_OnDelete(playerID, foundPinID, iconName, x, y)
+    if pin ~= nil then
+        local x = pin:GetHexX()
+        local y = pin:GetHexY()
+        config:DeleteMapPin(foundPinID)
+        Network.BroadcastPlayerInfo()
+        LuaEvents.MapPinPopup_OnDelete(playerID, foundPinID, iconName, x, y)
+    end
 end
 
 Events.CityInitialized.Add(RemoveSafePlotMapPin)
