@@ -100,11 +100,11 @@ function RemoveMapPins(playerID, _, iX, iY)
         local x = pin:GetHexX()
         local y = pin:GetHexY()
         if (
-            iconName == CITY_ICON_NAME and
+            iconName == CITY_PLOT_ICON_NAME and
             x == iX and y == iY
         ) then
             cityPinID = pinID
-        elseif iconName == SETTLER_ICON_NAME then
+        elseif iconName == SETTLER_PLOT_ICON_NAME then
             local distance = Map.GetPlotDistance(iX, iY, x, y)
             if distance <= 2 then
                 safePinID = pinID
@@ -117,10 +117,11 @@ function RemoveMapPins(playerID, _, iX, iY)
     end
 
     local values = {
-        [safePinID] = SETTLER_ICON_NAME,
-        [cityPinID] = CITY_ICON_NAME,
+        [safePinID] = SETTLER_PLOT_ICON_NAME,
+        [cityPinID] = CITY_PLOT_ICON_NAME,
     }
     for pinID, iconName in pairs(values) do
+        iconName = "ICON_" .. iconName
         local pin = pins[pinID]
         local x = pin:GetHexX()
         local y = pin:GetHexY()
@@ -137,7 +138,8 @@ local function UpdateSettlerMapPin(playerID, pinID, iconName, iX, iY)
         return
     end
 
-    if iconName ~= "ICON_DISTRICT_CITY_CENTER" then
+    iconName = iconName:gsub("^ICON_", "")
+    if iconName ~= CITY_PLOT_ICON_NAME then
         return
     end
 
@@ -160,15 +162,15 @@ local function UpdateSettlerMapPin(playerID, pinID, iconName, iX, iY)
     if plotID == nil then
         local pins = config:GetMapPins()
         local pin = pins[pinID]
-        pin:SetIconName("ICON_NOTIFICATION_BARBARIANS_SIGHTED")
-        pin:SetName("1 - needs a safe plot")
+        pin:SetIconName("ICON_" .. NEEDS_SAFE_PLOT_ICON_NAME)
+        pin:SetName(NEEDS_SAFE_PLOT_NAME)
     else
         local safePlot = Map.GetPlotByIndex(plotID)
         local x = safePlot:GetX()
         local y = safePlot:GetY()
         local pin = config:GetMapPin(x, y)
-        pin:SetIconName("ICON_UNIT_SETTLER")
-        pin:SetName("2 - Settler Plot")
+        pin:SetIconName("ICON_" .. SETTLER_PLOT_ICON_NAME)
+        pin:SetName(SETTLER_PLOT_NAME)
     end
 
     Network.BroadcastPlayerInfo()
@@ -181,6 +183,7 @@ function UpdateMapPinsForSafePlot(playerID, pinID, iconName, iX, iY)
         return
     end
 
+    iconName = iconName:gsub("^ICON_", "")
     if iconName ~= "MAP_PIN_DISTRICT" then
         return
     end
@@ -200,15 +203,15 @@ function UpdateMapPinsForSafePlot(playerID, pinID, iconName, iX, iY)
         return
     end
 
-    pin:SetIconName("ICON_UNIT_SETTLER")
-    pin:SetName("2 - Settler Plot")
+    pin:SetIconName("ICON_" .. SETTLER_PLOT_ICON_NAME)
+    pin:SetName(SETTLER_PLOT_NAME)
     Network.BroadcastPlayerInfo()
 
     local barbPin = nil
     for _, checkPin in pairs(pins) do
         if (
-            checkPin:GetName() == "1 - needs a safe plot" and
-            checkPin:GetIconName() == "ICON_NOTIFICATION_BARBARIANS_SIGHTED"
+            checkPin:GetName() == NEEDS_SAFE_PLOT_NAME and
+            checkPin:GetIconName() == "ICON_" .. NEEDS_SAFE_PLOT_ICON_NAME
         ) then
             local x = checkPin:GetHexX()
             local y = checkPin:GetHexY()
@@ -224,8 +227,8 @@ function UpdateMapPinsForSafePlot(playerID, pinID, iconName, iX, iY)
         return
     end
 
-    barbPin:SetIconName("ICON_UNIT_SETTLER")
-    barbPin:SetName("2 - Settler Plot")
+    barbPin:SetIconName("ICON_" .. SETTLER_PLOT_ICON_NAME)
+    barbPin:SetName(SETTLER_PLOT_NAME)
     Network.BroadcastPlayerInfo()
 end
 

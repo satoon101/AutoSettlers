@@ -17,9 +17,9 @@ function GatherCurrentData(playerID)
         local iconName = pin:GetIconName():gsub("^ICON_", "")
         local plot = Map.GetPlot(pin:GetHexX(), pin:GetHexY())
         local plotID = plot:GetIndex()
-        if iconName == "UNIT_SETTLER" then
+        if iconName == SETTLER_PLOT_ICON_NAME then
             SettlerIconPlotIDs[plotID] = true
-        elseif iconName == "DISTRICT_CITY_CENTER" then
+        elseif iconName == CITY_PLOT_ICON_NAME then
             CityPlotIDs[plotID] = true
         elseif (
             GameInfo.Buildings[iconName] ~= nil and
