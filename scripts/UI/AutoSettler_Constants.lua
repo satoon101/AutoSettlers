@@ -28,4 +28,7 @@ SETTLER_INDEX = GameInfo.Units["UNIT_SETTLER"].Index
 SKIP_TURN_HASH = GameInfo.UnitOperations["UNITOPERATION_SKIP_TURN"].Hash
 SLEEP_HASH = GameInfo.UnitOperations["UNITOPERATION_SLEEP"].Hash
 
+CITY_ICON_NAME = "DISTRICT_CITY_CENTER"
+SETTLER_ICON_NAME = "UNIT_SETTLER"
+
 print("=== Auto Settlers (Constants) Loaded ===")
